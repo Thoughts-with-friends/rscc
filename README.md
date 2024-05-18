@@ -4,7 +4,7 @@ Small Rust-Verilog(HDL) and C Compiler in Rust
 
 ## Design List
 
-- [ ] Design the initial file structure
+- [x] Design the initial file structure
 - [ ] Select crates
 - [ ] Design EBNF
 - [ ] Set up a test environment that can parse Rust code and compile Verilog-HDL code

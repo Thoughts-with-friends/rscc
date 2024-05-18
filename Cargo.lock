@@ -3,5 +3,17 @@
 version = 3
 
 [[package]]
+name = "c"
+version = "0.1.0"
+
+[[package]]
+name = "common"
+version = "0.1.0"
+
+[[package]]
 name = "rsvcc"
+version = "0.1.0"
+
+[[package]]
+name = "verilog_hdl"
 version = "0.1.0"
