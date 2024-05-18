@@ -3,7 +3,7 @@
 default: test
 
 test:
-	cargo test
+	cargo test -- --nocapture > result.txt
 
 lint:
 	@cargo clippy --all-targets --all-features

@@ -1,13 +1,11 @@
-[package]
+[workspace.package]
 name = "rsvcc"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[dependencies]
-
 [workspace]
-members = ["common", "c", "verilog_hdl"]
+members = ["common", "c", "verilog_hdl", "test_examples", "test_examples"]
 default-members = ["verilog_hdl"]
 resolver = "2"
