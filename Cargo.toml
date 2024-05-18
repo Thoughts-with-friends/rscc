@@ -8,6 +8,6 @@ edition = "2021"
 [dependencies]
 
 [workspace]
-members = ["c", "common", "verilog_hdl"]
+members = ["common", "c", "verilog_hdl"]
 default-members = ["verilog_hdl"]
 resolver = "2"
