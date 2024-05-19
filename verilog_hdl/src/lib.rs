@@ -1,55 +1,37 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+use std::path::Path;
 
-pub fn parse_file(path: impl AsRef<std::path::Path>) -> std::io::Result<syn::File> {
-    let code = std::fs::read_to_string(path)?;
-    let ast = syn::parse_file(&code).unwrap();
-    Ok(ast)
-}
+pub mod generate_main;
+pub mod parser;
+pub use generate_main::generate_code;
 
-pub fn parse_fn(ast: &syn::File) -> &Box<syn::Block> {
-    let tok = match &ast.items[0] {
-        syn::Item::Const(_) => todo!(),
-        syn::Item::Enum(_) => todo!(),
-        syn::Item::ExternCrate(_) => todo!(),
-        syn::Item::Fn(fn_) => &fn_.block,
-        syn::Item::ForeignMod(_) => todo!(),
-        syn::Item::Impl(_) => todo!(),
-        syn::Item::Macro(_) => todo!(),
-        syn::Item::Mod(_) => todo!(),
-        syn::Item::Static(_) => todo!(),
-        syn::Item::Struct(_) => todo!(),
-        syn::Item::Trait(_) => todo!(),
-        syn::Item::TraitAlias(_) => todo!(),
-        syn::Item::Type(_) => todo!(),
-        syn::Item::Union(_) => todo!(),
-        syn::Item::Use(_) => todo!(),
-        syn::Item::Verbatim(_) => todo!(),
-        _ => todo!(),
-    };
-
-    tok
+pub fn write_hdl(path: impl AsRef<Path>, content: &str) {
+    std::fs::write(path, content).unwrap();
 }
 
 // https://github.com/dtolnay/syn/blob/master/examples/dump-syntax/src/main.rs
 #[cfg(test)]
 mod tests {
     use super::*;
+    use pretty_assertions::assert_eq;
 
     #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+    fn add_num() {
+        let code = r#"
+pub fn add(left: usize, right: usize) -> usize {
+    left + right
+}"#;
 
-    #[test]
-    fn single_num() {
-        let code = include_str!("../../test_examples/src/add.rs");
+        #[rustfmt::skip]
+        let expected: &str =
+r#"module add(input left, input right, output num);
+    num = left + right;
+endmodule"#;
+
         let ast = syn::parse_file(&code).unwrap();
-        // dbg!(&ast);
+        println!("{:#?}", &ast);
 
-        let tok = parse_fn(&ast);
-        println!("{:#?}", tok);
+        let result = generate_main::generate_code(ast);
+        assert_eq!(result, expected);
+        write_hdl("./results/add.v", &result);
     }
 }

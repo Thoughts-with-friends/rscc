@@ -1,3 +1,3 @@
-module add(input a, input b, output num);
-    num = a + b;
+module add(input left, input right, output num);
+    num = left + right;
 endmodule
