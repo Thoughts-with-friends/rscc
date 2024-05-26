@@ -10,14 +10,25 @@ pub fn generate_code(rust_ast: syn::File) -> String {
 
     match item {
         Item::Fn(f) => {
-            let Function { fn_name, args } = f;
+            let Function {
+                fn_name,
+                args,
+                block,
+            } = f;
 
             let mut args_str = String::new();
+
             for v in args {
                 args_str.push_str(&format!("input {}, ", v));
             }
 
-            // let b = parse_block_main(Item::ItemFn);
+            let mut block_str = String::new();
+            for v in &block.block {
+                // ["left", "right"]
+                // expected -> left + right
+                block_str.push_str(v);
+                block_str.push_str(" + ");
+            }
 
             // main generator
             #[rustfmt::skip]

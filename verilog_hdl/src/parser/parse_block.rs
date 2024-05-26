@@ -1,22 +1,21 @@
 // use super::Item;
 // use syn::{punctuated::Punctuated, token::Comma};
-
 use syn::Expr;
 
 pub struct Block {
     pub block: Vec<String>,
 }
 
-pub fn parse_block_main(f: syn::ItemFn) -> Block {
+pub fn parse_block_main(f: &syn::ItemFn) -> Block {
     Block {
-        block: parse_block(*f.block),
+        block: parse_block(&f.block),
     }
 }
 
-pub fn parse_block(block: syn::Block) -> Vec<String> {
+pub fn parse_block(block: &syn::Block) -> Vec<String> {
     let block_str = Vec::new();
 
-    for stmt in block.stmts {
+    for stmt in &block.stmts {
         match stmt {
             syn::Stmt::Local(_) => todo!(),
             syn::Stmt::Item(_) => todo!(),
@@ -27,15 +26,15 @@ pub fn parse_block(block: syn::Block) -> Vec<String> {
     block_str
 }
 
-pub fn match_expr(expr: syn::Expr, mut block_str: Vec<String>) {
+pub fn match_expr(expr: &syn::Expr, mut block_str: Vec<String>) {
     match expr {
         syn::Expr::Array(_) => todo!(),
         syn::Expr::Assign(_) => todo!(),
         syn::Expr::Async(_) => todo!(),
         syn::Expr::Await(_) => todo!(),
         syn::Expr::Binary(expr_binary) => {
-            let left = match_box_expr(expr_binary.left);
-            let right = match_box_expr(expr_binary.right);
+            let left = match_box_expr(expr_binary.left.clone());
+            let right = match_box_expr(expr_binary.right.clone());
             block_str.push(left);
             block_str.push(right);
         }
@@ -59,7 +58,11 @@ pub fn match_expr(expr: syn::Expr, mut block_str: Vec<String>) {
         syn::Expr::Match(_) => todo!(),
         syn::Expr::MethodCall(_) => todo!(),
         syn::Expr::Paren(_) => todo!(),
-        syn::Expr::Path(_) => todo!(),
+        syn::Expr::Path(path) => {
+          for segment in  &path.path.segments{
+            block_str.push(segment.ident.to_string());
+          }
+        },
         syn::Expr::Range(_) => todo!(),
         syn::Expr::Reference(_) => todo!(),
         syn::Expr::Repeat(_) => todo!(),

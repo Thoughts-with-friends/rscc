@@ -1,9 +1,13 @@
-use super::Item;
+use super::{
+    parse_block::{parse_block_main, Block},
+    Item,
+};
 use syn::{punctuated::Punctuated, token::Comma};
 
 pub struct Function {
     pub fn_name: String,
     pub args: Vec<String>,
+    pub block: Block,
 }
 
 pub fn parse_items(rust_ast_items: Vec<syn::Item>) -> Vec<Item> {
@@ -37,7 +41,8 @@ pub fn parse_items(rust_ast_items: Vec<syn::Item>) -> Vec<Item> {
 pub fn parse_fn(f: syn::ItemFn) -> Function {
     Function {
         fn_name: f.sig.ident.to_string(),
-        args: parse_args(f.sig.inputs),
+        args: parse_args(f.sig.inputs.clone()),
+        block: parse_block_main(&f),
     }
 }
 

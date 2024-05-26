@@ -2,7 +2,7 @@
 
 default: test
 
-test: lint
+test: lint-fix
 	cargo test -- --nocapture > result.txt
 
 lint:
