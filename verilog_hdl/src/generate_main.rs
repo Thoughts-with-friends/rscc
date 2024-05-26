@@ -1,44 +1,49 @@
-use crate::parser::{
-    parse_fn::{parse_items, Function},
-    Item,
-};
+#[derive(Debug, derive_new::new)]
+pub struct Serializer {
+    pub hdl: String,
+    pub indent: &'static str,
+    depth: usize,
+}
 
-pub fn generate_code(rust_ast: syn::File) -> String {
-    let mut hdl = String::new();
+impl Default for Serializer {
+    fn default() -> Self {
+        Self {
+            hdl: String::new(),
+            indent: "    ",
+            depth: 0,
+        }
+    }
+}
 
-    let item = &parse_items(rust_ast.items)[0];
+impl Serializer {
+    pub(crate) fn increment_depth(&mut self) {
+        self.depth += 1;
+    }
 
-    match item {
-        Item::Fn(f) => {
-            let Function {
-                fn_name,
-                args,
-                block,
-            } = f;
+    pub(crate) fn decrement_depth(&mut self) {
+        self.depth -= 1;
+    }
 
-            let mut args_str = String::new();
-
-            for v in args {
-                args_str.push_str(&format!("input {}, ", v));
-            }
-
-            let mut block_str = String::new();
-            for v in &block.block {
-                // ["left", "right"]
-                // expected -> left + right
-                block_str.push_str(v);
-                block_str.push_str(" + ");
-            }
-
-            // main generator
-            #[rustfmt::skip]
-            hdl.push_str(&format!(
-r#"module {fn_name}({args_str}output num);
-    num = left + right;
-endmodule"#,
-            ));
+    pub(crate) fn indent(&mut self) {
+        match self.depth {
+            0 => (),
+            1 => self.hdl += &self.indent,
+            _ => self.hdl += &self.indent.repeat(self.depth),
         }
     }
 
-    hdl
+    pub fn generate_code(mut self, rust_code: &str) -> String {
+        let rust_ast = syn::parse_file(rust_code).unwrap();
+
+        let syn::File {
+            shebang: _,
+            attrs: _,
+            items,
+        } = rust_ast;
+
+        // self.parse_shebang(shebang);
+        // self.parse_attrs(attrs);
+        self.parse_items(items);
+        self.hdl
+    }
 }

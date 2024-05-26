@@ -1,3 +1,8 @@
 {
-    "words": ["rsvcc", "verilog"]
+    "words": [
+        "endmodule",
+        "rsvcc",
+        "rustfmt",
+        "verilog"
+    ]
 }
