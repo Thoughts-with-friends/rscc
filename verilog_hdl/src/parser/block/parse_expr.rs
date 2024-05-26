@@ -1,17 +1,6 @@
 use crate::generate_main::Serializer;
 
 impl Serializer {
-    pub(crate) fn parse_block(&mut self, block: &syn::Block) {
-        for stmt in &block.stmts {
-            match stmt {
-                syn::Stmt::Local(_) => todo!(),
-                syn::Stmt::Item(_) => todo!(),
-                syn::Stmt::Expr(expr, _semi) => self.parse_expr(expr),
-                syn::Stmt::Macro(_) => todo!(),
-            }
-        }
-    }
-
     pub(crate) fn parse_expr(&mut self, expr: &syn::Expr) {
         match expr {
             syn::Expr::Array(_) => todo!(),
