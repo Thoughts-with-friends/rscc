@@ -3,11 +3,9 @@ pub fn add1(a: usize, b: usize) -> usize {
 }
 
 pub fn add2(a: usize, b: usize) -> usize {
-    let num = a + b;
-    num
+    a + b
 }
 
 pub fn add3(a: usize, b: usize) -> usize {
-    let num = a + b;
-    return num;
+    a + b
 }

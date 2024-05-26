@@ -27,7 +27,7 @@ r#"module add(input left, input right, output num);
     num = left + right;
 endmodule"#;
 
-        let ast = syn::parse_file(&code).unwrap();
+        let ast = syn::parse_file(code).unwrap();
         println!("{:#?}", &ast);
 
         let result = generate_main::generate_code(ast);

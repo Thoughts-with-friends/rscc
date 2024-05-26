@@ -9,11 +9,11 @@ pub struct Block {
 
 pub fn parse_block_main(f: syn::ItemFn) -> Block {
     Block {
-        block: parse_block(f.block),
+        block: parse_block(*f.block),
     }
 }
 
-pub fn parse_block(block: Box<syn::Block>) -> Vec<String> {
+pub fn parse_block(block: syn::Block) -> Vec<String> {
     let block_str = Vec::new();
 
     for stmt in block.stmts {

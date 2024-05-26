@@ -1,5 +1,4 @@
 use crate::parser::{
-    parse_block::{parse_block_main, Block},
     parse_fn::{parse_items, Function},
     Item,
 };

@@ -8,3 +8,6 @@ test: lint
 lint:
 	@cargo clippy --all-targets --all-features
 	@cargo fmt --all
+
+lint-fix:
+	cargo clippy --workspace --fix --allow-staged --allow-dirty
