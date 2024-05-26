@@ -34,7 +34,18 @@ impl Serializer {
             syn::Expr::If(_) => todo!(),
             syn::Expr::Index(_) => todo!(),
             syn::Expr::Infer(_) => todo!(),
-            syn::Expr::Let(_) => todo!(),
+            syn::Expr::Let(expr_let) => {
+                let syn::ExprLet {
+                    attrs,
+                    let_token: _,
+                    pat,
+                    eq_token: _ ,
+                    expr,
+                } =
+                expr_let;
+
+                let _ = pat;
+            },
             syn::Expr::Lit(_) => todo!(),
             syn::Expr::Loop(_) => todo!(),
             syn::Expr::Macro(_) => todo!(),

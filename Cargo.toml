@@ -5,6 +5,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [workspace]
-members = ["common", "c", "verilog_hdl", "test_examples", "test_examples"]
+members = ["common", "c", "verilog_hdl", "test_examples", "test_examples", "sim"]
 default-members = ["verilog_hdl"]
 resolver = "2"
