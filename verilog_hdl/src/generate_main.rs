@@ -27,7 +27,7 @@ impl Serializer {
     pub(crate) fn indent(&mut self) {
         match self.depth {
             0 => (),
-            1 => self.hdl += &self.indent,
+            1 => self.hdl += self.indent,
             _ => self.hdl += &self.indent.repeat(self.depth),
         }
     }
