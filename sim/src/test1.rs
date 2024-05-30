@@ -26,7 +26,7 @@ impl Logic for Blinky {
     fn update(&mut self) {
         // v-- write to the .next member     v-- read from .val() method
         self.pulser.clock.next = self.clock.val();
-        self.pulser.enable.next = true.into();
+        self.pulser.enable.next = true;
         self.led.next = self.pulser.pulse.val();
     }
 }

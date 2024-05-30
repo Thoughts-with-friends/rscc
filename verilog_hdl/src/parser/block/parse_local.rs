@@ -27,9 +27,9 @@ impl Serializer {
         let syn::Local {
             attrs: _,
             let_token: _,
-            pat, // e.g. num
+            pat,  // e.g. num
             init, // = 1
-            semi_token,
+            semi_token: _,
         } = local;
 
         // Pat::Ident
